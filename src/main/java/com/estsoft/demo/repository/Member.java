@@ -17,4 +17,8 @@ public class Member {
 
     @Column
     private String name;
+
+    @ManyToOne
+    @JoinColumn(name = "team_id")
+    private Team team;
 }
