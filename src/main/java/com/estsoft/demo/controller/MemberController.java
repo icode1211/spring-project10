@@ -15,8 +15,11 @@ public class MemberController {
 
     @ResponseBody
     @GetMapping("/members")
-    public List<Member> showMembers() {
-        return memberService.getMemberAll();
+    public List<MemberDTO> showMembers() {
+        List<Member> memberAll = memberService.getMemberAll();
+        return memberAll.stream()
+                .map(MemberDTO::new)
+                .toList();
     }
 
     @ResponseBody
@@ -39,6 +42,13 @@ public class MemberController {
     public String deleteMemberById(@PathVariable Long id) {
         memberService.deleteMemberById(id);
         return "OK";
+    }
+
+    // GET /search/members?name=---
+    @GetMapping("/search/members")
+    @ResponseBody
+    public List<Member> selectMemberByName(@RequestParam("name") String name) {
+        return memberService.selectMemberByName(name);
     }
 
 

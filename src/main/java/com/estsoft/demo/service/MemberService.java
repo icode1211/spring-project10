@@ -31,4 +31,8 @@ public class MemberService {
     public void deleteMemberById(Long id) {
         memberRepository.deleteById(id);
     }
+
+    public List<Member> selectMemberByName(String name) {
+        return memberRepository.findByNameContaining(name);
+    }
 }
