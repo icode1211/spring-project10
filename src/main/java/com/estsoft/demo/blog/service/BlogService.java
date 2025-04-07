@@ -5,6 +5,8 @@ import com.estsoft.demo.blog.dto.AddArticleRequest;
 import com.estsoft.demo.blog.repository.BlogRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class BlogService {
 
@@ -16,5 +18,13 @@ public class BlogService {
 
     public Article saveArticle(AddArticleRequest request) {
         return blogRepository.save(request.toEntity());
+    }
+
+    public List<Article> findArticles() {
+        return blogRepository.findAll();
+    }
+
+    public Article findArticle(Long id) {
+        return blogRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("not exists id: " + id));
     }
 }

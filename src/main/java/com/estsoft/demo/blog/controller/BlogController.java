@@ -7,9 +7,9 @@ import com.estsoft.demo.blog.service.BlogService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class BlogController {
@@ -28,5 +28,23 @@ public class BlogController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(savedArticle.toDto());
+    }
+
+    @GetMapping("/api/articles")
+    public ResponseEntity<List<ArticleResponse>> findAllArticles() {
+        List<Article> articles = blogService.findArticles();
+
+        List<ArticleResponse> responseBody = articles.stream().map(article ->
+                new ArticleResponse(article.getId(), article.getTitle(), article.getContent()))
+                .toList();
+
+        return ResponseEntity.ok(responseBody);
+    }
+
+    // 단건 조회 GET /api/articles/{id}
+    @GetMapping("/api/articles/{id}")
+    public ResponseEntity<ArticleResponse> findArticle(@PathVariable("id") Long id) {
+        Article article = blogService.findArticle(id);
+        return ResponseEntity.ok(article.toDto());
     }
 }
