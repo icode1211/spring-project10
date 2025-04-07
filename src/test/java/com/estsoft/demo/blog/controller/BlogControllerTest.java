@@ -2,7 +2,6 @@ package com.estsoft.demo.blog.controller;
 
 import com.estsoft.demo.blog.Article;
 import com.estsoft.demo.blog.dto.AddArticleRequest;
-import com.estsoft.demo.blog.dto.ArticleResponse;
 import com.estsoft.demo.blog.repository.BlogRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,8 +14,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
-import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -79,5 +76,20 @@ class BlogControllerTest {
     }
 
     // 단건 조회 API 테스트 코드
+    @Test
+    public void findArticle() throws Exception {
+        // given: Article 저장, id
+        Article article = blogRepository.save(new Article("제목123", "내용123"));
+        Long id = article.getId();
 
+        // when: API 호출 코드    GET /api/articles/3
+        ResultActions resultActions = mockMvc.perform(get("/api/articles/{id}", id));
+
+        // then: 값 검증 - given절 값, when절 결과값 비교하여 검증, status code 검증
+        resultActions.andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(id))
+                .andExpect(jsonPath("$.title").value(article.getTitle()))
+                .andExpect(jsonPath("$.content").value(article.getContent()));
+
+    }
 }
