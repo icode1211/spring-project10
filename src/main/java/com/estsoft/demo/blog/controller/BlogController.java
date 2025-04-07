@@ -20,7 +20,6 @@ public class BlogController {
         this.blogService = blogService;
     }
 
-    // ResponseEntity
     @PostMapping("/api/articles")
     public ResponseEntity<ArticleResponse> saveArticle(@RequestBody AddArticleRequest request) {
         Article savedArticle = blogService.saveArticle(request);
