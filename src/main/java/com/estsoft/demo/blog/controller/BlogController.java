@@ -66,4 +66,11 @@ public class BlogController {
         return ResponseEntity.ok(response);
     }
 
+    // IllegalArgumentException 500x -> 400 Error
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handlerIllegalArgumentException(IllegalArgumentException e) {
+        return e.getMessage();
+    }
+
 }
