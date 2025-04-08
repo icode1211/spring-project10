@@ -2,9 +2,9 @@ package com.estsoft.demo.blog.controller;
 
 import com.estsoft.demo.blog.Article;
 import com.estsoft.demo.blog.dto.AddArticleRequest;
+import com.estsoft.demo.blog.dto.UpdateArticleRequest;
 import com.estsoft.demo.blog.repository.BlogRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +18,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -108,8 +109,31 @@ class BlogControllerTest {
         resultActions.andExpect(status().isOk());
 
         List<Article> list = blogRepository.findAll();
-        Assertions.assertThat(list).isEmpty();
-        Assertions.assertThat(list.size()).isEqualTo(0);
+        assertThat(list).isEmpty();
+    }
 
+    @Test
+    public void updateArticle() throws Exception {
+        // given: 게시글 추가, id추출, 수정할 값 셋팅 (json)
+        Article saved = blogRepository.save(new Article("dummy title", "dummy content"));
+        Long id = saved.getId();
+        UpdateArticleRequest request = new UpdateArticleRequest("update title", "update content");
+
+        // request(object) -> json  직렬화
+        String requestBody = objectMapper.writeValueAsString(request);
+
+        // when: 게시글 수정 API 호출
+        ResultActions resultActions = mockMvc.perform(put("/api/articles/{id}", id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody));
+
+        // then: status code 검증, 값 검증 (responseBody값 = given절 값)
+        resultActions.andExpect(status().isOk())
+                .andExpect(jsonPath("$.title").value(request.getTitle()))
+                .andExpect(jsonPath("$.content").value(request.getContent()));
+
+        Article article = blogRepository.findById(id).orElseThrow();
+        assertThat(article.getTitle()).isEqualTo(request.getTitle());
+        assertThat(article.getContent()).isEqualTo(request.getContent());
     }
 }
