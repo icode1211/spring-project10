@@ -2,8 +2,10 @@ package com.estsoft.demo.blog.service;
 
 import com.estsoft.demo.blog.Article;
 import com.estsoft.demo.blog.dto.AddArticleRequest;
+import com.estsoft.demo.blog.dto.UpdateArticleRequest;
 import com.estsoft.demo.blog.repository.BlogRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -30,5 +32,14 @@ public class BlogService {
 
     public void deleteArticle(Long id) {
         blogRepository.deleteById(id);   // delete from article where id = ${id}
+    }
+
+    @Transactional
+    public Article updateArticle(Long id, UpdateArticleRequest request) {
+        Article article = blogRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("not exists id: " + id)); // 500 Error
+
+        article.update(request.getTitle(), request.getContent());
+        return article;
     }
 }

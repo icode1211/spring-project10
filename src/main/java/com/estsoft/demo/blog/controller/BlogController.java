@@ -3,6 +3,7 @@ package com.estsoft.demo.blog.controller;
 import com.estsoft.demo.blog.Article;
 import com.estsoft.demo.blog.dto.AddArticleRequest;
 import com.estsoft.demo.blog.dto.ArticleResponse;
+import com.estsoft.demo.blog.dto.UpdateArticleRequest;
 import com.estsoft.demo.blog.service.BlogService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -53,6 +54,16 @@ public class BlogController {
         blogService.deleteArticle(id);
 
         return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/api/articles/{id}")
+    public ResponseEntity<ArticleResponse> updateArticle(@PathVariable("id") Long id,
+                                                         @RequestBody UpdateArticleRequest request) {
+
+        Article article = blogService.updateArticle(id, request);
+
+        ArticleResponse response = article.toDto();
+        return ResponseEntity.ok(response);
     }
 
 }
