@@ -47,4 +47,12 @@ public class BlogController {
         Article article = blogService.findArticle(id);
         return ResponseEntity.ok(article.toDto());
     }
+
+    @DeleteMapping("/api/articles/{id}")
+    public ResponseEntity<Void> deleteArticle(@PathVariable("id") Long id) {
+        blogService.deleteArticle(id);
+
+        return ResponseEntity.ok().build();
+    }
+
 }
