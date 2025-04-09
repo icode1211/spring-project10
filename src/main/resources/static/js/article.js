@@ -35,3 +35,23 @@ if (modifyButton) {
         })
     })
 }
+
+const createButton = document.getElementById("create-btn");
+if (createButton) {
+    createButton.addEventListener('click', event => {
+        // POST /api/articles 글 생성 API 호출
+        fetch('/api/articles', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                title: document.getElementById("title").value,
+                content: document.getElementById("content").value
+            })
+        }).then(() => {
+            alert("글 생성 완료!");
+            location.replace('/articles');
+        })
+    })
+}
