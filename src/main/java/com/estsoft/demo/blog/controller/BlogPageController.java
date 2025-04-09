@@ -1,10 +1,12 @@
 package com.estsoft.demo.blog.controller;
 
+import com.estsoft.demo.blog.Article;
 import com.estsoft.demo.blog.dto.ArticleViewResponse;
 import com.estsoft.demo.blog.service.BlogService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -26,4 +28,15 @@ public class BlogPageController {
         model.addAttribute("articles", articleList);
         return "articleList";   // html 페이지
     }
+
+    // /articles/{id} -> article.html
+    @GetMapping("/articles/{id}")
+    public String getArticle(@PathVariable("id") Long id, Model model) {
+        Article article = blogService.findArticle(id);
+
+        model.addAttribute("article", new ArticleViewResponse(article));
+
+        return "article";
+    }
+
 }
