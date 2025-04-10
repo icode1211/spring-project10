@@ -17,6 +17,6 @@ public class UserController {
     @PostMapping("/user")
     public String signup(@ModelAttribute AddUserRequest request) {
         userService.signup(request);  // 사용자 정보 저장
-        return "redirect:login";     // /login 화면으로 redirection
+        return "redirect:/login";     // /login 화면으로 redirection
     }
 }
