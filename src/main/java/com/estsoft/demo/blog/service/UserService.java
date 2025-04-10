@@ -1,6 +1,6 @@
 package com.estsoft.demo.blog.service;
 
-import com.estsoft.demo.blog.User;
+import com.estsoft.demo.blog.domain.User;
 import com.estsoft.demo.blog.dto.AddUserRequest;
 import com.estsoft.demo.blog.repository.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
