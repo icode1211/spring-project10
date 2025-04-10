@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -24,11 +25,11 @@ public class WebSecurityConfig {
                         auth.requestMatchers("/login", "/signup", "/user").permitAll()
                                 .anyRequest().authenticated())
                 .formLogin(auth -> auth.loginPage("/login")     // 폼 기반 로그인 설정
-                        .defaultSuccessUrl("/articles"))
+                        .defaultSuccessUrl("/articles", true))
                 .logout(auth -> auth.logoutSuccessUrl("/login") // 로그아웃 설정
                         .invalidateHttpSession(true)
                         .clearAuthentication(true))
-                .csrf(auth -> auth.disable());                  // csrf 비활성화
+                .csrf(AbstractHttpConfigurer::disable);                  // csrf 비활성화
         return httpSecurity.build();
     }
 
