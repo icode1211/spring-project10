@@ -5,6 +5,19 @@
   <title>책 상세 정보</title>
 </head>
 <body>
-
+<table>
+  <tbody>
+  <tr>
+    <td>id</td>
+    <td>name</td>
+    <td>author</td>
+  </tr>
+  <tr>
+    <td th:text="${book.id}"></td>
+    <td th:text="${book.name}"></td>
+    <td th:text="${book.author}"></td>
+  </tr>
+  </tbody>
+</table>
 </body>
 </html>
