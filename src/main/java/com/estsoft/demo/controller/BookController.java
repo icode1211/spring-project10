@@ -30,7 +30,7 @@ public class BookController {
         return "bookManage";
     }
 
-    @RequestMapping(method = RequestMethod.GET, name = "/books/{id}")
+    @RequestMapping(method = RequestMethod.GET, value = "/books/{id}")
     public String showBookDetail(@PathVariable("id") String id,
                                  Model model) {
         Book book = bookService.getBook(id);
@@ -39,7 +39,7 @@ public class BookController {
         return "bookDetail";
     }
 
-    @RequestMapping(method = RequestMethod.POST, name = "/books")
+    @RequestMapping(method = RequestMethod.POST, value = "/books")
     public String addBook(@ModelAttribute AddBookRequest request) {
         bookService.saveBook(request);
         return "redirect:/books";
