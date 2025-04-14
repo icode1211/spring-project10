@@ -3,6 +3,7 @@ package com.estsoft.demo.blog.service;
 import com.estsoft.demo.blog.domain.Article;
 import com.estsoft.demo.blog.dto.AddArticleRequest;
 import com.estsoft.demo.blog.dto.UpdateArticleRequest;
+import com.estsoft.demo.blog.exception.NotExistsIdException;
 import com.estsoft.demo.blog.repository.BlogRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +28,7 @@ public class BlogService {
     }
 
     public Article findArticle(Long id) {
-        return blogRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("not exists id: " + id));
+        return blogRepository.findById(id).orElseThrow(() -> new NotExistsIdException(id));
     }
 
     public void deleteArticle(Long id) {
@@ -37,7 +38,7 @@ public class BlogService {
     @Transactional
     public Article updateArticle(Long id, UpdateArticleRequest request) {
         Article article = blogRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("not exists id: " + id)); // 500 Error
+                .orElseThrow(() -> new NotExistsIdException(id)); // 500 Error
 
         article.update(request.getTitle(), request.getContent());
         return article;
