@@ -45,7 +45,7 @@ public class Article {
     }
 
     public ArticleResponse toDto() {
-        return new ArticleResponse(id, title, content);
+        return new ArticleResponse(this);
     }
 
     // 빌더 패턴

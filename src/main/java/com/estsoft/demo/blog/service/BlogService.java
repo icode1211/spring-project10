@@ -1,10 +1,13 @@
 package com.estsoft.demo.blog.service;
 
 import com.estsoft.demo.blog.domain.Article;
+import com.estsoft.demo.blog.domain.Comment;
 import com.estsoft.demo.blog.dto.AddArticleRequest;
+import com.estsoft.demo.blog.dto.CommentRequest;
 import com.estsoft.demo.blog.dto.UpdateArticleRequest;
 import com.estsoft.demo.blog.exception.NotExistsIdException;
 import com.estsoft.demo.blog.repository.BlogRepository;
+import com.estsoft.demo.blog.repository.CommentRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,9 +17,11 @@ import java.util.List;
 public class BlogService {
 
     private final BlogRepository blogRepository;
+    private final CommentRepository commentRepository;
 
-    public BlogService(BlogRepository blogRepository) {
+    public BlogService(BlogRepository blogRepository, CommentRepository commentRepository) {
         this.blogRepository = blogRepository;
+        this.commentRepository = commentRepository;
     }
 
     public Article saveArticle(AddArticleRequest request) {
@@ -42,5 +47,12 @@ public class BlogService {
 
         article.update(request.getTitle(), request.getContent());
         return article;
+    }
+
+    // 저장 (articleId, CommentRequest)
+    public Comment saveComment(Long articleId, CommentRequest request) {
+        // 게시글 정보 찾기  article_id
+        Article article = findArticle(articleId);
+        return commentRepository.save(new Comment(request.getBody(), article));
     }
 }

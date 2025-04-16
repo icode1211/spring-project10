@@ -1,9 +1,8 @@
 package com.estsoft.demo.blog.controller;
 
 import com.estsoft.demo.blog.domain.Article;
-import com.estsoft.demo.blog.dto.AddArticleRequest;
-import com.estsoft.demo.blog.dto.ArticleResponse;
-import com.estsoft.demo.blog.dto.UpdateArticleRequest;
+import com.estsoft.demo.blog.domain.Comment;
+import com.estsoft.demo.blog.dto.*;
 import com.estsoft.demo.blog.service.BlogService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -35,8 +34,8 @@ public class BlogController {
     public ResponseEntity<List<ArticleResponse>> findAllArticles() {
         List<Article> articles = blogService.findArticles();
 
-        List<ArticleResponse> responseBody = articles.stream().map(article ->
-                new ArticleResponse(article.getId(), article.getTitle(), article.getContent()))
+        List<ArticleResponse> responseBody = articles.stream()
+                .map(ArticleResponse::new)
                 .toList();
 
         return ResponseEntity.ok(responseBody);
@@ -63,5 +62,13 @@ public class BlogController {
 
         ArticleResponse response = article.toDto();
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/api/articles/{articleId}/comments")
+    public ResponseEntity<CommentResponse> saveComment(@PathVariable("articleId") Long articleId,
+                                                       @RequestBody CommentRequest request) {
+        Comment comment = blogService.saveComment(articleId, request);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(new CommentResponse(comment));
     }
 }
