@@ -85,4 +85,11 @@ public class BlogController {
         return ResponseEntity.ok(new CommentResponse(comment));
     }
 
+    @DeleteMapping("/api/comments/{commentId}")
+    public ResponseEntity<Void> deleteComment(@PathVariable Long commentId) {
+        blogService.deleteComment(commentId);
+
+        return ResponseEntity.noContent().build();
+    }
+
 }

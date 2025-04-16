@@ -66,4 +66,7 @@ public class BlogService {
         return comment.updateBody(request.getBody());
     }
 
+    public void deleteComment(Long commentId) {
+        commentRepository.deleteById(commentId);
+    }
 }
