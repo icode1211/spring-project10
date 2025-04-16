@@ -71,4 +71,11 @@ public class BlogController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(new CommentResponse(comment));
     }
+
+    @GetMapping("/api/comments/{commentId}")
+    public ResponseEntity<CommentResponse> findComment(@PathVariable("commentId") Long commentId) {
+        Comment comment = blogService.findComment(commentId);
+        return ResponseEntity.ok(new CommentResponse(comment));
+    }
+
 }

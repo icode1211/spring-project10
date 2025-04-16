@@ -49,10 +49,15 @@ public class BlogService {
         return article;
     }
 
-    // 저장 (articleId, CommentRequest)
     public Comment saveComment(Long articleId, CommentRequest request) {
         // 게시글 정보 찾기  article_id
         Article article = findArticle(articleId);
         return commentRepository.save(new Comment(request.getBody(), article));
     }
+
+    public Comment findComment(Long commentId) {
+        return commentRepository.findById(commentId)
+                .orElseThrow(() -> new NotExistsIdException(commentId));
+    }
+
 }
