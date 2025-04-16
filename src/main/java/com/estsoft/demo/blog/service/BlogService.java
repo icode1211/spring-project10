@@ -60,4 +60,10 @@ public class BlogService {
                 .orElseThrow(() -> new NotExistsIdException(commentId));
     }
 
+    @Transactional
+    public Comment updateComment(Long commentId, CommentRequest request) {
+        Comment comment = findComment(commentId);
+        return comment.updateBody(request.getBody());
+    }
+
 }

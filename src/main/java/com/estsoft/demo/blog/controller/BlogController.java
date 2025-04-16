@@ -78,4 +78,11 @@ public class BlogController {
         return ResponseEntity.ok(new CommentResponse(comment));
     }
 
+    @PutMapping("/api/comments/{commentId}")
+    public ResponseEntity<CommentResponse> updateComment(@PathVariable Long commentId,
+                                                         @RequestBody CommentRequest request) {
+        Comment comment = blogService.updateComment(commentId, request);
+        return ResponseEntity.ok(new CommentResponse(comment));
+    }
+
 }

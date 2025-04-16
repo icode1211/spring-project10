@@ -30,4 +30,9 @@ public class Comment {
         this.body = body;
         this.article = article;
     }
+
+    public Comment updateBody(String body) {
+        this.body = body;
+        return this;
+    }
 }
