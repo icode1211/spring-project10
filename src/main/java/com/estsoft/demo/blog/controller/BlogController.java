@@ -88,8 +88,13 @@ public class BlogController {
     @DeleteMapping("/api/comments/{commentId}")
     public ResponseEntity<Void> deleteComment(@PathVariable Long commentId) {
         blogService.deleteComment(commentId);
-
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/api/articles/{articleId}/comments")
+    public ResponseEntity<ArticleCommentResponse> findArticleWithComment(@PathVariable Long articleId) {
+        Article article = blogService.findArticle(articleId);
+
+        return ResponseEntity.ok(new ArticleCommentResponse(article));
+    }
 }
