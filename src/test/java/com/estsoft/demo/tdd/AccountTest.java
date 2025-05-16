@@ -1,8 +1,8 @@
 package com.estsoft.demo.tdd;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.*;
 /**
  * 1. 계좌 생성
  * 2. 잔액 조회
@@ -14,20 +14,20 @@ public class AccountTest {
     @Test
     public void testCreateAccount() {
         Account account = new Account(100000);   // 계좌 생성
-        Assertions.assertNotNull(account);  // 질문 (종료 조건을 미리 생각해서)
+        assertNotNull(account);  // 질문 (종료 조건을 미리 생각해서)
     }
 
     @Test
     public void testGetBalance() {
         // 1.계좌생성(초기금액 입금) 2.잔액 조회
         Account account = new Account(100000);
-        Assertions.assertEquals(100000, account.getBalance());
+        assertEquals(100000, account.getBalance());
 
         account = new Account(50000);
-        Assertions.assertEquals(50000, account.getBalance());
+        assertEquals(50000, account.getBalance());
 
         account = new Account(0);
-        Assertions.assertEquals(0, account.getBalance());
+        assertEquals(0, account.getBalance());
     }
 
     @Test
@@ -35,7 +35,7 @@ public class AccountTest {
         // 1.계좌생성(초기금액 입금)   2.입금    3.잔액조회
         Account account = new Account(10000);
         account.deposit(50000);
-        Assertions.assertEquals(60000, account.getBalance());
+        assertEquals(60000, account.getBalance());
     }
 
     @Test
@@ -43,8 +43,8 @@ public class AccountTest {
         // 1.계좌생성(초기금액 입금)   2.출금    3.잔액조회
         Account account = new Account(10000);
         account.withdraw(5000);
-        Assertions.assertEquals(5000, account.getBalance());
+        assertEquals(5000, account.getBalance());
 
-        Assertions.assertThrowsExactly(RuntimeException.class, () -> account.withdraw(100000));
+        assertThrowsExactly(RuntimeException.class, () -> account.withdraw(100000));
     }
 }
