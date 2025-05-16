@@ -23,16 +23,18 @@ public class MemberController {
     }
 
     @ResponseBody
-    @PostMapping("/members")
-    public Member saveMember(@RequestBody Member member) {
-        return memberService.insertMember(member);
+    @PostMapping("/members")            // POST /members 회원정보 저장 API
+    public MemberDTO saveMember(@RequestBody Member member) {
+        Member savedMember = memberService.insertMember(member);
+        return new MemberDTO(savedMember);
     }
 
     // GET /members/{id} -> member 단건 조회
     @ResponseBody
     @GetMapping("/members/{id}")
-    public Member selectMemberById(@PathVariable Long id) {
-        return memberService.selectMemberById(id);
+    public MemberDTO selectMemberById(@PathVariable Long id) {
+        Member member = memberService.selectMemberById(id);
+        return new MemberDTO(member);
     }
 
 
