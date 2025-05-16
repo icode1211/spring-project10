@@ -10,12 +10,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -75,4 +76,27 @@ class MemberControllerTest {
                 .andExpect(jsonPath("$.id").value(saved.getId()))
                 .andExpect(jsonPath("$.name").value(saved.getName()));
     }
+
+    @Test
+    public void saveMember() throws Exception {
+        String content = """
+                {
+                  "name": "메시",
+                  "team": {
+                    "id": 1,
+                    "name": "FC바르셀로나"
+                  }
+                }
+                """;
+
+        ResultActions resultActions = mockMvc.perform(post("/members")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(content));
+
+        resultActions.andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value("메시"))
+                .andExpect(jsonPath("$.teamDTO.teamId").value(1))
+                .andExpect(jsonPath("$.teamDTO.name").value("FC바르셀로나"));
+    }
+
 }

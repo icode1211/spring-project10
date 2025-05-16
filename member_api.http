@@ -6,7 +6,11 @@ POST localhost:8080/members
 Content-Type: application/json
 
 {
-  "name": "이름"
+  "name": "이름",
+  "team": {
+    "id": 1,
+    "name": "FC바르셀로나"
+  }
 }
 
 ### 회원 단건 조회

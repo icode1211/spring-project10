@@ -1,5 +1,6 @@
 package com.estsoft.demo.controller;
 
+import com.estsoft.demo.dto.MemberRequest;
 import com.estsoft.demo.repository.Member;
 import com.estsoft.demo.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -24,8 +25,8 @@ public class MemberController {
 
     @ResponseBody
     @PostMapping("/members")            // POST /members 회원정보 저장 API
-    public MemberDTO saveMember(@RequestBody Member member) {
-        Member savedMember = memberService.insertMember(member);
+    public MemberDTO saveMember(@RequestBody MemberRequest member) {
+        Member savedMember = memberService.insertMember(member.toEntity());
         return new MemberDTO(savedMember);
     }
 
