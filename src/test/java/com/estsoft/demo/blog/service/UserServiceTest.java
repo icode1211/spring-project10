@@ -7,13 +7,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
@@ -34,14 +33,14 @@ class UserServiceTest {
 
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-        Mockito.when(userRepository.save(any()))
+        when(userRepository.save(any()))
                 .thenReturn(new User(request.getEmail(), passwordEncoder.encode(request.getPassword())));
 
         // when:
         userService.signup(request);
 
         // then: 특정 메소드 호출 횟수 검증
-        Mockito.verify(userRepository, Mockito.times(1)).save(any());
-        Mockito.verify(encoder, Mockito.times(1)).encode(any());
+        verify(userRepository, times(1)).save(any());
+        verify(encoder, times(1)).encode(any());
     }
 }
