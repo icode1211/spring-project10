@@ -25,4 +25,8 @@ public class Team {
         this.id = id;
         this.name = name;
     }
+
+    public Team(String name) {
+        this.name = name;
+    }
 }

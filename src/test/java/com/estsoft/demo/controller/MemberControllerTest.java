@@ -40,13 +40,14 @@ class MemberControllerTest {
     public void setUp() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
         memberRepository.deleteAll();
+        teamRepository.deleteAll();
     }
 
     @DisplayName("member 조회 검증")
     @Test
     void showMembers() throws Exception {
         // 2. given:
-        Team team = teamRepository.findById(1L).orElseGet(Team::new);
+        Team team = teamRepository.save(new Team("팀1"));
         Member member = new Member("홍길동", team);
         Member savedMember = memberRepository.save(member);     // INSERT INTO member (id, name, team_id) VALUES (?, ?, ?);
 
@@ -64,7 +65,7 @@ class MemberControllerTest {
     @Test
     public void showOneMember() throws Exception {
         // given: 회원 정보 생성
-        Team team = teamRepository.findById(2L).orElseGet(Team::new);
+        Team team = teamRepository.save(new Team("팀1"));
         Member member = new Member("메시", team);
         Member saved = memberRepository.save(member);
 
